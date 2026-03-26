@@ -2,6 +2,9 @@
 
 > Generate a complete, AI-ready Markdown snapshot of your entire codebase.
 
+![License](https://img.shields.io/badge/license-MIT-green)
+![Node](https://img.shields.io/badge/node-%3E%3D18-blue)
+
 ---
 
 ## ✨ Why this exists

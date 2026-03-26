@@ -2,32 +2,71 @@ import fg from "fast-glob";
 import fs from "fs/promises";
 import path from "path";
 
+/* =========================
+   ⚙️ CONFIGURATION
+========================= */
+
 const ROOT_DIR = process.cwd();
-const SRC_DIR = path.join(ROOT_DIR, "src");
 const OUTPUT_FILE = path.join(ROOT_DIR, "CODEBASE.md");
 
+// Files we WANT
 const INCLUDED_EXTENSIONS = [
-  ".ts",
-  ".tsx",
-  ".js",
-  ".jsx",
-  ".json",
-  ".md",
-  ".css",
-  ".scss",
+  ".ts", ".tsx", ".js", ".jsx",
+  ".json", ".md", ".css", ".scss",
+  ".env", ".yml", ".yaml"
 ];
 
-const IGNORE_PATTERNS = ["**/node_modules/**", "**/.next/**"];
+// Folders/files to ignore (customizable)
+const IGNORE_PATTERNS = [
+  "**/node_modules/**",
+  "**/.next/**",
+  "**/dist/**",
+  "**/build/**",
+  "**/.git/**",
+];
+
+// Important files to ALWAYS include
+const PRIORITY_FILES = [
+  "README.md",
+  "package.json",
+  "tsconfig.json",
+  "next.config.ts",
+  "vercel.json",
+];
+
+// Limit huge files
+const MAX_FILE_SIZE = 200_000; // ~200KB
+
+/* =========================
+   📦 TYPES
+========================= */
 
 type FileMeta = {
   path: string;
   ext: string;
   lines: number;
   size: number;
+  category: string;
 };
+
+/* =========================
+   🧠 HELPERS
+========================= */
 
 function getLanguage(ext: string) {
   return ext.replace(".", "") || "";
+}
+
+function categorize(file: string): string {
+  if (file.startsWith("src/")) return "Source";
+  if (file.startsWith("public/")) return "Assets";
+  if (file.startsWith("scripts/")) return "Scripts";
+  if (file.startsWith("data/")) return "Data";
+
+  if (file.endsWith(".md")) return "Docs";
+  if (file.includes("config") || file.endsWith(".json")) return "Config";
+
+  return "Other";
 }
 
 function buildTree(files: string[]) {
@@ -37,13 +76,8 @@ function buildTree(files: string[]) {
     const parts = file.split("/");
     let current = tree;
 
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-
-      if (!current[part]) {
-        current[part] = {};
-      }
-
+    for (const part of parts) {
+      if (!current[part]) current[part] = {};
       current = current[part];
     }
   }
@@ -60,53 +94,78 @@ function buildTree(files: string[]) {
   return render(tree);
 }
 
+/* =========================
+   🔍 MAIN GENERATOR
+========================= */
+
 async function generate() {
-  console.log("🔍 Scanning files...");
+  console.log("🔍 Scanning full project...");
 
   const files = await fg("**/*", {
-    cwd: SRC_DIR,
+    cwd: ROOT_DIR,
     ignore: IGNORE_PATTERNS,
     onlyFiles: true,
+    dot: true, // include hidden files (.env)
   });
 
   const metas: FileMeta[] = [];
 
   for (const file of files) {
     const ext = path.extname(file);
-    if (!INCLUDED_EXTENSIONS.includes(ext)) continue;
 
-    const fullPath = path.join(SRC_DIR, file);
-    const content = await fs.readFile(fullPath, "utf-8");
+    // Include if extension matches OR it's priority file
+    const isPriority = PRIORITY_FILES.includes(path.basename(file));
+
+    if (!INCLUDED_EXTENSIONS.includes(ext) && !isPriority) continue;
+
+    const fullPath = path.join(ROOT_DIR, file);
+
+    let content = "";
+    try {
+      content = await fs.readFile(fullPath, "utf-8");
+    } catch {
+      continue; // skip unreadable files
+    }
+
+    const size = content.length;
 
     metas.push({
       path: file,
       ext,
       lines: content.split("\n").length,
-      size: content.length,
+      size,
+      category: categorize(file),
     });
   }
 
-  // 📊 Stats
+  /* =========================
+     📊 STATS
+  ========================= */
+
   const totalFiles = metas.length;
   const totalLines = metas.reduce((sum, f) => sum + f.lines, 0);
 
   const fileTypes: Record<string, number> = {};
+  const categories: Record<string, number> = {};
+
   for (const f of metas) {
     fileTypes[f.ext] = (fileTypes[f.ext] || 0) + 1;
+    categories[f.category] = (categories[f.category] || 0) + 1;
   }
 
   const largestFiles = [...metas]
     .sort((a, b) => b.size - a.size)
     .slice(0, 10);
 
-  // 🌳 Tree
-  const tree = buildTree(metas.map((f) => f.path));
+  const tree = buildTree(metas.map(f => f.path));
 
-  // 🧾 Start writing
+  /* =========================
+     🧾 BUILD OUTPUT
+  ========================= */
+
   let output = `# 🧠 CODEBASE SNAPSHOT\n\n`;
   output += `Generated: ${new Date().toISOString()}\n\n`;
 
-  // 🔢 Stats
   output += `## 🔢 Project Stats\n\n`;
   output += `- Total files: ${totalFiles}\n`;
   output += `- Total lines: ${totalLines}\n\n`;
@@ -116,30 +175,41 @@ async function generate() {
     output += `- ${ext}: ${count}\n`;
   }
 
-  // 🌳 Structure
+  output += `\n### 🗂 Categories\n`;
+  for (const [cat, count] of Object.entries(categories)) {
+    output += `- ${cat}: ${count}\n`;
+  }
+
   output += `\n## 🌳 Project Structure\n\n`;
   output += "```\n" + tree + "```\n";
 
-  // 🧾 Index
   output += `\n## 🧾 File Index\n\n`;
   for (const f of metas) {
-    output += `- src/${f.path} (${f.lines} lines)\n`;
+    output += `- ${f.path} (${f.lines} lines)\n`;
   }
 
-  // 🔥 Largest files
   output += `\n## 🔥 Largest Files\n\n`;
   for (const f of largestFiles) {
-    output += `- src/${f.path} (${f.lines} lines)\n`;
+    output += `- ${f.path} (${f.lines} lines)\n`;
   }
 
-  // 📄 Actual content
+  /* =========================
+     📄 SOURCE CONTENT
+  ========================= */
+
   output += `\n---\n\n## 📄 Source Code\n\n`;
 
   for (const f of metas) {
-    const fullPath = path.join(SRC_DIR, f.path);
+    if (f.size > MAX_FILE_SIZE) {
+      output += `### 📁 ${f.path}\n\n`;
+      output += `⚠️ Skipped (too large)\n\n`;
+      continue;
+    }
+
+    const fullPath = path.join(ROOT_DIR, f.path);
     const content = await fs.readFile(fullPath, "utf-8");
 
-    output += `### 📁 src/${f.path}\n\n`;
+    output += `### 📁 ${f.path}\n\n`;
     output += "```" + getLanguage(f.ext) + "\n";
     output += content.trim() + "\n";
     output += "```\n\n";
@@ -147,7 +217,7 @@ async function generate() {
 
   await fs.writeFile(OUTPUT_FILE, output);
 
-  console.log("✅ CODEBASE.md generated with rich context");
+  console.log("✅ Full CODEBASE.md generated");
 }
 
 generate();

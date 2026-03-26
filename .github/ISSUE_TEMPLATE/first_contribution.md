@@ -4,7 +4,7 @@ name: 🌱 First Contribution
 about: Help new contributors get started
 title: "[FIRST CONTRIBUTION] "
 labels: good first issue
-------------------------
+---
 
 ## 👋 Introduction
 

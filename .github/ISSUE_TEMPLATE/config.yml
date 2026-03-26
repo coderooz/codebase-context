@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+
+contact_links:
+
+* name: 💬 General Discussion
+  url: https://github.com/coderooz/codebase-snapshot/discussions
+  about: Ask questions, share ideas, or start discussions.
+
+* name: 📚 Documentation
+  url: https://github.com/coderooz/codebase-snapshot#readme
+  about: Check the README before opening an issue.

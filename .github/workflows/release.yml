@@ -16,14 +16,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check version change
+        id: version_check
+        run: |
+          OLD_VERSION=$(git show HEAD~1:package.json | jq -r .version)
+          NEW_VERSION=$(jq -r .version package.json)
+
+          echo "Old version: $OLD_VERSION"
+          echo "New version: $NEW_VERSION"
+
+          if [ "$OLD_VERSION" = "$NEW_VERSION" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Stop if no version change
+        if: steps.version_check.outputs.changed == 'false'
+        run: |
+          echo "No version change detected. Skipping release."
+          exit 0
+
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Create Release
+        if: steps.version_check.outputs.changed == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
-          name: "Release v${{ github.run_number }}"
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
           body: |
-            Automated release.
+            Automated release for version v${{ steps.get_version.outputs.version }}
 
-            Please refer to CHANGELOG.md for details.
+            See CHANGELOG.md for details.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

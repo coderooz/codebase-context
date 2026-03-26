@@ -3,9 +3,9 @@ blank_issues_enabled: false
 contact_links:
 
 * name: 💬 General Discussion
-  url: https://github.com/coderooz/codebase-snapshot/discussions
+  url: https://github.com/coderooz/codebase-context/discussions
   about: Ask questions, share ideas, or start discussions.
 
 * name: 📚 Documentation
-  url: https://github.com/coderooz/codebase-snapshot#readme
+  url: https://github.com/coderooz/codebase-context/#readme
   about: Check the README before opening an issue.

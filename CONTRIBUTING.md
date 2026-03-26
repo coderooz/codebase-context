@@ -55,7 +55,7 @@ You can contribute in several ways:
 ## 🛠️ Development Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/codebase-snapshot.git
+git clone https://github.com/coderooz/codebase-snapshot.git
 cd codebase-snapshot
 npm install
 ```

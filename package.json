@@ -1,0 +1,25 @@
+{
+  "name": "codebase-snapshot",
+  "version": "1.0.0",
+  "description": "Generate AI-ready Markdown snapshots of your codebase",
+  "main": "scripts/generate.ts",
+  "scripts": {
+    "generate": "ts-node scripts/generate.ts"
+  },
+  "keywords": [
+    "codebase",
+    "documentation",
+    "ai",
+    "markdown",
+    "developer-tools"
+  ],
+  "author": "Coderooz",
+  "license": "MIT",
+  "dependencies": {
+    "fast-glob": "^3.3.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}

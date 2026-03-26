@@ -4,7 +4,7 @@ name: 💬 General Issue
 about: Ask questions or raise discussions
 title: "[GENERAL] "
 labels: discussion
-------------------
+---
 
 ## 💬 Topic
 

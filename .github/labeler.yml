@@ -1,0 +1,12 @@
+documentation:
+  - "*.md"
+
+scripts:
+  - "scripts/**"
+
+config:
+  - "*.json"
+  - "*.yml*"
+
+infra:
+  - ".github/**"

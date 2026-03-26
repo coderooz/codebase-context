@@ -37,7 +37,7 @@ This tool solves that by generating a **single structured `.md` file** containin
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/codebase-snapshot.git
+git clone https://github.com/coderooz/codebase-snapshot.git
 cd codebase-snapshot
 npm install
 ```
@@ -106,7 +106,7 @@ Pull requests are welcome. For major changes, open an issue first.
 
 ## 📜 License
 
-MIT License
+[MIT License](/LICENSE)
 
 ---
 

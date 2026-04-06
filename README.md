@@ -1,115 +1,246 @@
-# 🧠 Codebase Snapshot
+# 🧠 Codebase Context
 
-> Generate a complete, AI-ready Markdown snapshot of your entire codebase.
+> Generate structured, AI-ready Markdown snapshots of your entire codebase.
 
-![License](https://img.shields.io/badge/license-MIT-green)
-![Node](https://img.shields.io/badge/node-%3E%3D18-blue)
+[![npm version](https://img.shields.io/npm/v/@coderooz/codebase-context)](https://www.npmjs.com/package/@coderooz/codebase-context)
+[![license](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![node](https://img.shields.io/badge/node-%3E%3D18-blue)]()
 
 ---
 
-## ✨ Why this exists
+## ✨ Overview
 
-Understanding large codebases is hard. Feeding them into AI tools is even harder.
+**Codebase Context** is a CLI tool that scans your project and produces a **single structured `CODEBASE.md` file**.
 
-This tool solves that by generating a **single structured `.md` file** containing:
+It is designed for:
 
-* 📊 Project statistics
-* 🌳 File structure
+* 🤖 Feeding complete context into AI models
+* 🧠 Understanding large or unfamiliar repositories
+* 📚 Generating documentation automatically
+* ⚡ Debugging and auditing codebases efficiently
+
+---
+
+## 🚀 What It Generates
+
+The output file (`CODEBASE.md`) includes:
+
+* 📊 Project statistics (files, lines)
 * 📦 File type breakdown
-* 🧾 Indexed file list
+* 🗂 Category grouping
+* 🌳 Full directory structure
+* 🧾 File index with metadata
 * 🔥 Largest files
-* 📄 Full source code
+* 📄 Source code (size-controlled)
 
 ---
 
-## 🚀 Features
+## ⚙️ Installation
 
-* ✅ Multi-directory scanning (`src`, `scripts`, root, etc.)
-* ✅ Include specific files (`README.md`, `tsconfig.json`, etc.)
-* ✅ Full source embedding
-* ✅ File stats (lines, size)
-* ✅ Tree structure generation
-* ✅ AI-ready output format
-* ✅ Extensible config system
-
----
-
-## 📦 Installation
+### Run instantly (recommended)
 
 ```bash
-git clone https://github.com/coderooz/codebase-snapshot.git
-cd codebase-snapshot
-npm install
+npx @coderooz/codebase-context
 ```
 
 ---
 
-## ⚙️ Usage
+### Global install
 
 ```bash
-npx ts-node scripts/generate.ts
+npm install -g @coderooz/codebase-context
 ```
 
-Output:
+Then run:
 
+```bash
+codebase-context
 ```
+
+---
+
+## 🧪 Usage
+
+Run inside your project root:
+
+```bash
+codebase-context
+```
+
+### Output
+
+```bash
 CODEBASE.md
 ```
 
 ---
 
-## 🧩 Configuration
+## 🧠 How It Works
 
-Edit the `SCAN_CONFIG`:
+The CLI follows a modular pipeline:
+
+```
+scanFiles → analyzeFiles → buildTree → generateMarkdown
+```
+
+### Modules
+
+| Module         | Responsibility                                |
+| -------------- | --------------------------------------------- |
+| `scanner.ts`   | File discovery using fast-glob                |
+| `analyzer.ts`  | Extract metadata (size, lines, type, content) |
+| `tree.ts`      | Build hierarchical structure                  |
+| `stats.ts`     | Compute analytics                             |
+| `generator.ts` | Generate Markdown output                      |
+
+---
+
+## 📦 Configuration
+
+Default configuration:
 
 ```ts
-const SCAN_CONFIG = [
-  { name: "Source", base: "src", recursive: true },
-  { name: "Root Files", base: ".", includeFiles: ["README.md", "tsconfig.json"] },
-  { name: "Scripts", base: "scripts", recursive: true },
-];
+export const defaultConfig = {
+  include: ["**/*.ts", "**/*.js", "**/*.json", "**/*.md"],
+  ignore: ["node_modules/**", "dist/**"],
+  maxFileSizeKB: 50,
+  embedSource: true,
+  priority: ["package.json", "README.md"]
+};
+```
+
+### Options Explained
+
+| Option          | Description                   |
+| --------------- | ----------------------------- |
+| `include`       | File patterns to scan         |
+| `ignore`        | Paths to exclude              |
+| `maxFileSizeKB` | Max size for embedding source |
+| `embedSource`   | Include file contents         |
+| `priority`      | Important files (future use)  |
+
+---
+
+## 📁 Example Output
+
+See:
+
+```bash
+CODEBASE.md
+```
+
+Example included in:
+
+```
+/example/CODEBASE.md
 ```
 
 ---
 
-## 🧠 Use Cases
+## 🧩 Use Cases
 
-* Feed full context into AI tools
-* Understand unfamiliar repositories instantly
-* Create auto-documentation
-* Debug large projects faster
+* Feed full repo context into AI tools (GPT, Gemini, etc.)
+* Quickly understand unknown projects
+* Generate internal documentation
+* Analyze project structure
 * Share architecture with teams
 
 ---
 
-## 📄 Example Output
+## 🏗️ Project Structure
 
-See: `CODEBASE.md`
+```
+src/
+  core/
+    scanner.ts
+    analyzer.ts
+    tree.ts
+    stats.ts
+    generator.ts
+
+  config/
+    default.ts
+
+  cli.ts
+  index.ts
+```
+
+---
+
+## 🛠️ Development
+
+### Setup
+
+```bash
+git clone https://github.com/coderooz/codebase-context.git
+cd codebase-context
+npm install
+```
+
+---
+
+### Build
+
+```bash
+npm run build
+```
+
+---
+
+### Run locally
+
+```bash
+node dist/cli.js
+```
+
+or:
+
+```bash
+npm link
+codebase-context
+```
+
+---
+
+## ⚠️ Important Notes
+
+* Uses **ESM (NodeNext)** — all imports must include `.js`
+* No `ts-node` in production
+* CLI runs compiled output from `/dist`
 
 ---
 
 ## 🔥 Roadmap
 
-* [ ] Dependency graph visualization
-* [ ] Diff mode (compare snapshots)
-* [ ] CLI packaging (`npx codebase-snapshot`)
-* [ ] Ignore rules via config file
-* [ ] AI summary generation
+* [ ] Config file support (`codebase.config.json`)
+* [ ] Plugin system
+* [ ] AST-based analysis
+* [ ] Dependency graph generation
+* [ ] AI summaries
+* [ ] Multiple output formats (JSON / HTML)
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests are welcome. For major changes, open an issue first.
+Contributions are welcome.
+
+* Open issues for bugs or ideas
+* Submit PRs for improvements
+
+See `CONTRIBUTING.md`
 
 ---
 
 ## 📜 License
 
-[MIT License](/LICENSE)
+MIT License
 
 ---
 
 ## 👨‍💻 Author
 
-Built by [Coderooz](https://www.coderooz.in/about)
+Built by Coderooz
+https://www.coderooz.in
+
+---

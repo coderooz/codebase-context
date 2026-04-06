@@ -49,9 +49,6 @@ jobs:
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
           name: Release v${{ steps.get_version.outputs.version }}
-          body: |
-            Automated release for version v${{ steps.get_version.outputs.version }}
-
-            See CHANGELOG.md for details.
+          body: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

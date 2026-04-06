@@ -1,8 +1,12 @@
 documentation:
   - "*.md"
 
-scripts:
-  - "scripts/**"
+core:
+  - "src/core/**"
+
+cli:
+  - "src/cli/**"
+  - "bin/**"
 
 config:
   - "*.json"

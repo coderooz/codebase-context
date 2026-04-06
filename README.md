@@ -5,6 +5,8 @@
 [![npm version](https://img.shields.io/npm/v/@coderooz/codebase-context)](https://www.npmjs.com/package/@coderooz/codebase-context)
 [![license](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D18-blue)]()
+[![npm version](https://img.shields.io/npm/v/@coderooz/codebase-context)](https://www.npmjs.com/package/@coderooz/codebase-context)
+[![npm downloads](https://img.shields.io/npm/dm/@coderooz/codebase-context)](https://www.npmjs.com/package/@coderooz/codebase-context)
 
 ---
 
@@ -56,6 +58,10 @@ Then run:
 ```bash
 codebase-context
 ```
+
+### 📦 Package
+
+[https://www.npmjs.com/package/@coderooz/codebase-context](https://www.npmjs.com/package/@coderooz/codebase-context)
 
 ---
 

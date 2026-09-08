@@ -11,11 +11,20 @@ export async function run() {
     defaultConfig.ignore
   );
 
-    const analyzed = await analyzeFiles(files, defaultConfig);
-    const tree = buildTree(analyzed);
-    const markdown = generateMarkdown(tree, analyzed);
+  if (files.length === 0) {
+    console.log("⚠️  No files found to process");
+    return;
+  }
 
-  await fs.writeFile("CODEBASE.md", markdown, "utf-8");
+  const analyzed = await analyzeFiles(files, defaultConfig);
+  const tree = buildTree(analyzed);
+  const markdown = generateMarkdown(tree, analyzed);
 
-  console.log("✅ CODEBASE.md generated");
+  try {
+    await fs.writeFile("CODEBASE.md", markdown, "utf-8");
+    console.log(`✅ CODEBASE.md generated (${analyzed.length} files)`);
+  } catch (error) {
+    console.error("❌ Failed to write CODEBASE.md:", error instanceof Error ? error.message : error);
+    process.exit(1);
+  }
 }

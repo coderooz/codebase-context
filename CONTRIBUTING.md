@@ -1,167 +1,163 @@
-# 🤝 Contributing to Codebase Snapshot
+# Contributing to Codebase Context
 
-First off — thanks for taking the time to contribute.
-This project aims to make codebases easier to understand, share, and feed into AI tools.
-
----
-
-## 🧠 Philosophy
-
-This project values:
-
-* **Clarity over cleverness**
-* **Performance with simplicity**
-* **Extensibility by design**
-* **Developer-first experience**
-
-If your contribution improves any of these — you're on the right track.
+Thanks for taking the time to contribute. This project makes codebases easier to understand, share, and feed into AI tools.
 
 ---
 
-## 🚀 Ways to Contribute
+## Philosophy
 
-You can contribute in several ways:
-
-### 🐛 Report Bugs
-
-* Found something broken or unexpected?
-* Open an issue with:
-
-  * Clear description
-  * Steps to reproduce
-  * Expected vs actual behavior
+- **Clarity over cleverness**
+- **Performance with simplicity**
+- **Extensibility by design**
+- **Developer-first experience**
 
 ---
 
-### ✨ Suggest Features
+## Ways to Contribute
 
-* Open an issue describing:
+### Report Bugs
 
-  * What problem it solves
-  * Why it matters
-  * (Optional) Proposed implementation
+Open an issue with:
+- Clear description
+- Steps to reproduce
+- Expected vs actual behavior
+- Node.js version and OS
+
+### Suggest Features
+
+Open an issue describing:
+- What problem it solves
+- Why it matters
+- (Optional) Proposed implementation
+
+### Submit Code
+
+- Fix bugs
+- Improve performance
+- Add features
+- Refactor for clarity
 
 ---
 
-### 🔧 Submit Code
-
-* Fix bugs
-* Improve performance
-* Add features
-* Refactor for clarity
-
----
-
-## 🛠️ Development Setup
+## Development Setup
 
 ```bash
-git clone https://github.com/coderooz/codebase-snapshot.git
-cd codebase-snapshot
+git clone https://github.com/coderooz/codebase-context.git
+cd codebase-context
 npm install
 ```
 
-Run the generator:
+### Build
 
 ```bash
-npm run generate
+npm run build
+```
+
+### Run locally
+
+```bash
+node dist/cli.js
+```
+
+Or link globally:
+
+```bash
+npm link
+codebase-context
 ```
 
 ---
 
-## 📁 Project Structure (Quick Overview)
+## Project Structure
 
-```bash
-scripts/        → core generator logic
-example/        → sample outputs
+```
+src/
+  core/
+    scanner.ts       # File discovery (fast-glob)
+    analyzer.ts      # Metadata extraction, categorization
+    tree.ts          # Directory tree builder
+    stats.ts         # Analytics computation
+    generator.ts     # Markdown output generation
+  config/
+    default.ts       # Default configuration
+  cli.ts             # CLI entry (Commander)
+  index.ts           # Pipeline orchestrator
+  types.ts           # TypeScript interfaces
+
+bin/
+  cli.js             # CLI entry point (shebang)
+
+docs/                # Project documentation site
+example/             # Example generated output
 ```
 
 ---
 
-## 📏 Code Guidelines
+## Code Guidelines
 
-### ✅ Do:
+### Do
 
-* Keep functions small and focused
-* Write readable, self-explanatory code
-* Use consistent naming
-* Add comments where logic is non-obvious
+- Keep functions small and focused
+- Write readable, self-explanatory code
+- Use consistent naming conventions
+- Use ESM imports with `.js` extensions
+- Handle errors gracefully
 
-### 🚫 Avoid:
+### Avoid
 
-* Over-engineering
-* Unnecessary dependencies
-* Breaking existing behavior without reason
-
----
-
-## 🧪 Testing Your Changes
-
-Before submitting:
-
-* Run the generator
-* Verify output (`CODEBASE.md`) looks correct
-* Ensure no crashes on edge cases (missing files, empty dirs, etc.)
+- Over-engineering
+- Unnecessary dependencies
+- Breaking existing behavior without reason
+- `var` — use `const` or `let`
+- `any` — use `unknown` and narrow with type guards
 
 ---
 
-## 📌 Commit Guidelines
+## Commit Guidelines
 
-Use clear, meaningful commit messages:
+Use conventional commit messages:
 
 ```bash
-feat: add support for root-level file scanning
-fix: handle missing files gracefully
+feat: add support for custom config files
+fix: handle empty directories gracefully
 refactor: simplify tree generation logic
+docs: update README with new examples
+chore: update dependencies
 ```
 
 ---
 
-## 🔀 Pull Request Process
+## Pull Request Process
 
 1. Fork the repo
-2. Create a new branch:
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
+2. Create a branch: `git checkout -b feature/your-feature-name`
 3. Make your changes
-4. Commit and push
-5. Open a Pull Request
-
----
+4. Build: `npm run build`
+5. Test: Run `node dist/cli.js` in a sample project
+6. Commit and push
+7. Open a Pull Request
 
 ### PR Expectations
 
-* Explain **what** and **why**
-* Keep changes focused
-* Link related issues (if any)
+- Explain **what** and **why**
+- Keep changes focused
+- Link related issues (if any)
+- Ensure `npm run build` passes
 
 ---
 
-## 🧠 Ideas You Can Work On
+## Ideas You Can Work On
 
-* CLI interface (`npx codebase-snapshot`)
-* Config file support (`codebase.config.json`)
-* Dependency graph generation
-* AI-generated summaries
-* Output customization (JSON / HTML)
-
----
-
-## 💬 Discussions
-
-For questions, ideas, or brainstorming:
-
-* Open an issue
-* Start a discussion
+- Config file support (`codebase.config.json`)
+- Plugin system
+- AST-based analysis
+- Dependency graph generation
+- AI summaries
+- Multiple output formats (JSON / HTML)
+- Custom ignore patterns via CLI flags
 
 ---
 
-## 🙌 Final Note
+## Questions?
 
-Even small contributions matter.
-
-Improving documentation, fixing typos, or suggesting ideas — all of it helps move the project forward.
-
-Let’s build something developers actually *love* to use.
+Open an issue or start a discussion on GitHub.

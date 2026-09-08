@@ -7,6 +7,28 @@ and this project adheres to **Semantic Versioning**.
 
 ---
 
+## [2.0.1] - 2026-09-08
+
+### Fixed
+
+* Removed duplicate function definitions in `analyzer.ts` (categorize, analyzeFile, analyzeFiles were duplicated)
+* Updated `SECURITY.md` with correct supported versions (2.0.x)
+* Updated `CONTRIBUTING.md` with correct project name and structure references
+
+### Added
+
+* `AGENTS.md` — project-level agent configuration and conventions
+* `.opencode/reference/PROJECT_REFERENCE_INDEX.md` — verified project structure reference (PRI)
+* `docs/DEVELOPERS_NOTES.md` — developer onboarding documentation
+* `.workspace/` directory structure for development artifacts
+
+### Improved
+
+* `.gitignore` — added governance workspace and project MCP files
+* GitHub repository professional-grade file completeness
+
+---
+
 ## [2.0.0] - 2026-04-05
 
 ### 🚀 Major Release — CLI Architecture Rewrite

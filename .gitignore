@@ -138,5 +138,17 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# CHANGELOG
+# Files
 *.patch
+.mcp.json
+.mcp-runtime.json
+coderooz-codebase-context.project-mcp.json
+docs-repo.project-mcp.json
+$null
+
+# Workspace (governance)
+.workspace/
+
+# OpenCode project-level config (runtime only)
+.opencode/node_modules/
+.opencode/package-lock.json

@@ -2,20 +2,40 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 2.0.x   | :white_check_mark: |
+| 1.x     | :x: |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability in this project, please report it responsibly.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+**Do NOT open a public GitHub issue for security vulnerabilities.**
+
+Instead, please email: **contact@coderooz.in**
+
+### What to include
+
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (if any)
+
+### Response timeline
+
+- **Acknowledgment:** Within 48 hours
+- **Initial assessment:** Within 1 week
+- **Fix or mitigation:** Depends on severity
+
+## Security Measures
+
+- CodeQL scanning via GitHub Actions (weekly + on PR)
+- Dependabot for automated dependency updates
+- No secrets or API keys in source code
+- TypeScript strict mode for type safety
+- Input validation via Commander CLI framework
+
+## Scope
+
+This security policy applies to the `@coderooz/codebase-context` npm package and the GitHub repository at https://github.com/coderooz/codebase-context.

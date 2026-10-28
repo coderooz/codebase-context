@@ -152,3 +152,5 @@ $null
 # OpenCode project-level config (runtime only)
 .opencode/node_modules/
 .opencode/package-lock.json
+.workspace/*
+!.workspace/LFI/
